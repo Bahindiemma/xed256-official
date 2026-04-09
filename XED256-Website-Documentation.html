@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>XED 256 Official Website — Technical Documentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #1a1a2e;
+    line-height: 1.7;
+    background: #fff;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  /* Cover Page */
+  .cover {
+    text-align: center;
+    padding: 80px 0 60px;
+    border-bottom: 3px solid #D4AF37;
+    margin-bottom: 50px;
+    page-break-after: always;
+  }
+  .cover-logo {
+    width: 80px; height: 80px; border-radius: 16px;
+    background: linear-gradient(135deg, #E8C547, #D4AF37);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; color: #000; margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px; font-weight: 700; color: #0A0A0F;
+    margin-bottom: 8px;
+  }
+  .cover .subtitle {
+    font-size: 18px; color: #D4AF37; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px;
+  }
+  .cover .doc-title {
+    font-size: 24px; font-weight: 600; color: #333;
+    margin-bottom: 6px;
+  }
+  .cover .doc-version {
+    font-size: 14px; color: #888; margin-bottom: 40px;
+  }
+  .cover-meta {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; text-align: left; max-width: 500px; margin: 0 auto;
+    padding: 24px; background: #f8f8f8; border-radius: 12px;
+  }
+  .cover-meta .label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1.5px; }
+  .cover-meta .value { font-size: 14px; color: #333; font-weight: 500; }
+
+  /* Table of Contents */
+  .toc { margin-bottom: 50px; page-break-after: always; }
+  .toc h2 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; margin-bottom: 20px; color: #0A0A0F; }
+  .toc-list { list-style: none; }
+  .toc-list li { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+  .toc-list li a { color: #333; text-decoration: none; font-weight: 500; }
+  .toc-list li a:hover { color: #D4AF37; }
+  .toc-list .page { color: #999; font-size: 14px; }
+  .toc-sub { padding-left: 24px; }
+  .toc-sub li { font-size: 14px; border-bottom: 1px dashed #eee; }
+
+  /* Headings */
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px; font-weight: 700; color: #0A0A0F;
+    margin: 50px 0 20px; padding-bottom: 10px;
+    border-bottom: 2px solid #D4AF37;
+    page-break-before: always;
+  }
+  h2:first-of-type { page-break-before: avoid; }
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px; font-weight: 600; color: #222;
+    margin: 30px 0 12px;
+  }
+  h4 { font-size: 15px; font-weight: 600; color: #444; margin: 20px 0 8px; }
+
+  p { margin-bottom: 12px; font-size: 14px; color: #444; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; }
+  th { background: #0A0A0F; color: #D4AF37; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #eee; color: #444; vertical-align: top; }
+  tr:nth-child(even) { background: #fafafa; }
+
+  /* Code */
+  code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 12.5px; color: #c7254e; font-family: 'SF Mono', 'Fira Code', monospace; }
+  pre { background: #0A0A0F; color: #e4e4e7; padding: 20px; border-radius: 12px; overflow-x: auto; margin: 16px 0 24px; font-size: 12.5px; line-height: 1.6; }
+  pre code { background: none; color: inherit; padding: 0; }
+
+  /* Lists */
+  ul, ol { margin: 8px 0 16px 24px; font-size: 14px; color: #444; }
+  li { margin-bottom: 6px; }
+
+  /* Info boxes */
+  .info-box {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border-left: 4px solid #D4AF37; padding: 16px 20px;
+    border-radius: 0 8px 8px 0; margin: 16px 0 24px;
+  }
+  .info-box p { margin: 0; font-size: 13px; color: #92400e; }
+  .info-box strong { color: #78350f; }
+
+  .tech-badge {
+    display: inline-block; padding: 4px 12px; background: #f0f0f0;
+    border-radius: 20px; font-size: 12px; font-weight: 500; color: #555; margin: 2px 4px 2px 0;
+  }
+
+  .feature-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 24px;
+  }
+  .feature-card {
+    padding: 16px; background: #fafafa; border-radius: 10px; border: 1px solid #eee;
+  }
+  .feature-card h4 { margin: 0 0 6px; font-size: 14px; color: #222; }
+  .feature-card p { margin: 0; font-size: 12px; color: #666; }
+
+  .separator { height: 1px; background: linear-gradient(90deg, transparent, #D4AF37, transparent); margin: 40px 0; }
+
+  @media print {
+    body { padding: 40px 30px; }
+    h2 { page-break-before: always; }
+    .cover { page-break-after: always; }
+    pre { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- COVER PAGE -->
+<!-- ============================================ -->
+<div class="cover">
+  <div class="cover-logo">X</div>
+  <h1>XED 256</h1>
+  <div class="subtitle">FortPortal Ni Dubai</div>
+  <div class="doc-title">Official Website — Technical Documentation</div>
+  <div class="doc-version">Version 1.0 &bull; April 2026</div>
+
+  <div class="cover-meta">
+    <div><div class="label">Project</div><div class="value">xed256-official</div></div>
+    <div><div class="label">Repository</div><div class="value">github.com/Bahindiemma/xed256-official</div></div>
+    <div><div class="label">Artist</div><div class="value">Xed 256 (Edward Muligirwa)</div></div>
+    <div><div class="label">Origin</div><div class="value">Fort Portal, Uganda</div></div>
+    <div><div class="label">Built By</div><div class="value">COTE TECHNOLOGIES</div></div>
+    <div><div class="label">Contact</div><div class="value">Eng. Emmanuel Bahindi</div></div>
+    <div><div class="label">Email</div><div class="value">ebahindi@gmail.com</div></div>
+    <div><div class="label">Phone</div><div class="value">+256773165989</div></div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- TABLE OF CONTENTS -->
+<!-- ============================================ -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ol class="toc-list">
+    <li><a href="#overview">1. Project Overview</a></li>
+    <li><a href="#tech-stack">2. Technology Stack</a></li>
+    <li><a href="#architecture">3. Architecture &amp; Folder Structure</a></li>
+    <li><a href="#pages">4. Pages &amp; Routes</a></li>
+    <li><a href="#components">5. Components Reference</a></li>
+    <li><a href="#data">6. Data Layer &amp; Types</a></li>
+    <li><a href="#features">7. Core Features</a></li>
+    <li><a href="#ecommerce">8. E-Commerce &amp; Payments</a></li>
+    <li><a href="#ticketing">9. Event Ticketing System</a></li>
+    <li><a href="#media">10. Media Integration</a></li>
+    <li><a href="#seo">11. SEO &amp; Structured Data</a></li>
+    <li><a href="#performance">12. Performance Optimizations</a></li>
+    <li><a href="#responsive">13. Mobile Responsiveness</a></li>
+    <li><a href="#design">14. Design System</a></li>
+    <li><a href="#setup">15. Setup &amp; Deployment</a></li>
+    <li><a href="#contacts">16. Contact Information</a></li>
+  </ol>
+</div>
+
+<!-- ============================================ -->
+<!-- 1. PROJECT OVERVIEW -->
+<!-- ============================================ -->
+<h2 id="overview">1. Project Overview</h2>
+
+<p>The <strong>Xed 256 Official Website</strong> is a production-ready artist portfolio and e-commerce platform built for <strong>Edward Muligirwa</strong>, professionally known as <strong>Xed 256</strong> — a genre-defying Ugandan musician from Fort Portal.</p>
+
+<p>The website serves as the artist's digital home, combining music streaming, live event ticketing, merchandise sales, press resources, and fan engagement into a unified, visually stunning experience under the brand tagline <strong>"FortPortal Ni Dubai."</strong></p>
+
+<h3>Key Objectives</h3>
+<ul>
+  <li><strong>Showcase music</strong> — stream all 9 tracks directly via YouTube integration</li>
+  <li><strong>Build fanbase</strong> — blog, social links, newsletter, Linktree-style links page</li>
+  <li><strong>Sell merchandise</strong> — full e-commerce with cart, multi-payment checkout</li>
+  <li><strong>Sell event tickets</strong> — tiered ticketing (Regular/VIP/VVIP) with PDF ticket generation</li>
+  <li><strong>Professional presence</strong> — press kit, interview features, booking form</li>
+</ul>
+
+<h3>Project Statistics</h3>
+<table>
+  <tr><th>Metric</th><th>Value</th></tr>
+  <tr><td>Total Routes</td><td>16 pages</td></tr>
+  <tr><td>Components</td><td>19 reusable components</td></tr>
+  <tr><td>Lines of Code</td><td>13,376+</td></tr>
+  <tr><td>Data Files</td><td>5 TypeScript modules</td></tr>
+  <tr><td>Artist Images</td><td>11 high-resolution photos</td></tr>
+  <tr><td>Music Tracks</td><td>9 (with real YouTube IDs)</td></tr>
+  <tr><td>Performance Videos</td><td>8 Instagram embeds</td></tr>
+  <tr><td>Payment Methods</td><td>6 (VISA, Bank, MTN×2, Airtel×2)</td></tr>
+  <tr><td>Build Size (shared JS)</td><td>102 KB</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 2. TECHNOLOGY STACK -->
+<!-- ============================================ -->
+<h2 id="tech-stack">2. Technology Stack</h2>
+
+<h3>Core Framework</h3>
+<table>
+  <tr><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+  <tr><td>Next.js</td><td>15.5.15</td><td>React framework with App Router, SSG, SSR</td></tr>
+  <tr><td>React</td><td>19.0.0</td><td>UI component library</td></tr>
+  <tr><td>TypeScript</td><td>5.7.0</td><td>Type-safe JavaScript with strict mode</td></tr>
+  <tr><td>Tailwind CSS</td><td>3.4.17</td><td>Utility-first CSS framework</td></tr>
+  <tr><td>Framer Motion</td><td>11.18.2</td><td>Animation library for React</td></tr>
+</table>
+
+<h3>Additional Dependencies</h3>
+<table>
+  <tr><th>Package</th><th>Purpose</th></tr>
+  <tr><td>clsx</td><td>Conditional className utility</td></tr>
+  <tr><td>lucide-react</td><td>Icon library (selectively used)</td></tr>
+  <tr><td>next/font/google</td><td>Self-hosted Google Fonts (Space Grotesk, Inter)</td></tr>
+  <tr><td>autoprefixer</td><td>CSS vendor prefix automation</td></tr>
+  <tr><td>postcss</td><td>CSS processing pipeline</td></tr>
+</table>
+
+<div class="info-box">
+  <p><strong>No backend or database required.</strong> All data is stored in static TypeScript files under <code>/data</code>. The site can be deployed as a fully static website or with server-side rendering on platforms like Vercel.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- 3. ARCHITECTURE -->
+<!-- ============================================ -->
+<h2 id="architecture">3. Architecture &amp; Folder Structure</h2>
+
+<pre><code>xed256-official/
+├── app/                          # Next.js App Router pages
+│   ├── layout.tsx               # Root layout (fonts, metadata, providers)
+│   ├── page.tsx                 # Homepage
+│   ├── globals.css              # Global styles &amp; Tailwind layers
+│   ├── loading.tsx              # Loading spinner
+│   ├── not-found.tsx            # 404 page
+│   ├── sitemap.ts               # Auto-generated sitemap.xml
+│   ├── robots.ts                # Auto-generated robots.txt
+│   ├── about/page.tsx           # Artist biography &amp; timeline
+│   ├── music/page.tsx           # Music player, videos, gallery
+│   ├── events/page.tsx          # Live shows listing
+│   ├── events/tickets/[eventId]/page.tsx  # Ticket purchase flow
+│   ├── store/page.tsx           # Product listing
+│   ├── store/[id]/page.tsx      # Product detail
+│   ├── checkout/page.tsx        # Cart checkout (3-step)
+│   ├── checkout/success/page.tsx # Order confirmation
+│   ├── blog/page.tsx            # News &amp; articles
+│   ├── contact/page.tsx         # Booking form
+│   ├── links/page.tsx           # Linktree-style bio links
+│   └── press-kit/page.tsx       # Electronic Press Kit
+│
+├── components/                   # Reusable UI components (19 files)
+│   ├── Navbar.tsx               # Sticky navigation + cart badge
+│   ├── Footer.tsx               # Footer with COTE TECHNOLOGIES credit
+│   ├── LayoutClient.tsx         # Client-side wrapper (Cart, Nav, Footer)
+│   ├── CartDrawer.tsx           # Slide-out shopping cart
+│   ├── ProductCard.tsx          # Merchandise card with Add to Cart
+│   ├── MediaCard.tsx            # Music/video card with play overlay
+│   ├── EventCard.tsx            # Event listing with ticket link
+│   ├── SectionHeading.tsx       # Reusable section header
+│   ├── MusicPlayer.tsx          # YouTube-integrated music player
+│   ├── YouTubePlayer.tsx        # YouTube iframe embed component
+│   ├── InstagramEmbed.tsx       # Instagram reel/post embed modal
+│   ├── PhotoGallery.tsx         # Filterable image gallery + lightbox
+│   ├── PaymentMethodSelector.tsx # 6-method payment UI + forms
+│   ├── BackToTop.tsx            # Floating scroll-to-top button
+│   ├── Breadcrumbs.tsx          # Auto-generated breadcrumb nav
+│   └── JsonLd.tsx               # JSON-LD structured data component
+│
+├── lib/                          # Shared utilities &amp; state
+│   ├── cart-context.tsx         # Shopping cart context (React Context)
+│   ├── generate-ticket-pdf.ts   # PDF ticket generator + email sim
+│   └── utils.ts                 # formatPrice, formatDate, cn helper
+│
+├── data/                         # Static content data files
+│   ├── artist.ts                # Bio, achievements, contact, socials
+│   ├── music.ts                 # Tracks, videos, performances, interviews
+│   ├── products.ts              # Merchandise &amp; digital products
+│   ├── events.ts                # Events with ticket tiers
+│   └── blog.ts                  # News articles
+│
+├── types/
+│   └── index.ts                 # All TypeScript interfaces
+│
+├── public/media/images/          # 11 artist photographs
+│
+├── package.json                  # Dependencies &amp; scripts
+├── tsconfig.json                 # TypeScript configuration
+├── tailwind.config.ts            # Tailwind theme &amp; breakpoints
+├── next.config.ts                # Next.js configuration
+└── postcss.config.js             # PostCSS plugins</code></pre>
+
+<!-- ============================================ -->
+<!-- 4. PAGES & ROUTES -->
+<!-- ============================================ -->
+<h2 id="pages">4. Pages &amp; Routes</h2>
+
+<table>
+  <tr><th>Route</th><th>File</th><th>Type</th><th>Description</th></tr>
+  <tr><td><code>/</code></td><td>app/page.tsx</td><td>Static</td><td>Homepage with parallax hero, featured music, events, store preview, newsletter CTA</td></tr>
+  <tr><td><code>/music</code></td><td>app/music/page.tsx</td><td>Static</td><td>YouTube music player, genre filters, music videos, Instagram performances, interviews, photo gallery</td></tr>
+  <tr><td><code>/about</code></td><td>app/about/page.tsx</td><td>Static</td><td>Artist biography, achievement timeline (2015–2025), stats, social links</td></tr>
+  <tr><td><code>/events</code></td><td>app/events/page.tsx</td><td>Static</td><td>Upcoming &amp; past events with ticket purchase links</td></tr>
+  <tr><td><code>/events/tickets/[id]</code></td><td>app/events/tickets/[eventId]/page.tsx</td><td>Dynamic</td><td>3-step ticket purchase: tier selection, buyer details, payment</td></tr>
+  <tr><td><code>/store</code></td><td>app/store/page.tsx</td><td>Static</td><td>Product grid with category filter (Merch/Digital) and currency toggle</td></tr>
+  <tr><td><code>/store/[id]</code></td><td>app/store/[id]/page.tsx</td><td>Dynamic</td><td>Product detail with image gallery, size selector, add to cart</td></tr>
+  <tr><td><code>/checkout</code></td><td>app/checkout/page.tsx</td><td>Static</td><td>3-step checkout: order review, shipping, payment (6 methods)</td></tr>
+  <tr><td><code>/checkout/success</code></td><td>app/checkout/success/page.tsx</td><td>Static</td><td>Order confirmation with confetti animation</td></tr>
+  <tr><td><code>/blog</code></td><td>app/blog/page.tsx</td><td>Static</td><td>News articles with featured post and modal reader</td></tr>
+  <tr><td><code>/contact</code></td><td>app/contact/page.tsx</td><td>Static</td><td>Booking form, contact info, social media links</td></tr>
+  <tr><td><code>/links</code></td><td>app/links/page.tsx</td><td>Static</td><td>Linktree-style page for Instagram/TikTok bio link</td></tr>
+  <tr><td><code>/press-kit</code></td><td>app/press-kit/page.tsx</td><td>Static</td><td>EPK with copyable bio, press photos, media coverage</td></tr>
+  <tr><td><code>/sitemap.xml</code></td><td>app/sitemap.ts</td><td>Generated</td><td>XML sitemap for search engines</td></tr>
+  <tr><td><code>/robots.txt</code></td><td>app/robots.ts</td><td>Generated</td><td>Crawler directives</td></tr>
+  <tr><td><code>/not-found</code></td><td>app/not-found.tsx</td><td>Static</td><td>Custom 404 error page</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 5. COMPONENTS -->
+<!-- ============================================ -->
+<h2 id="components">5. Components Reference</h2>
+
+<h3>Layout Components</h3>
+<table>
+  <tr><th>Component</th><th>Props</th><th>Description</th></tr>
+  <tr><td><code>Navbar</code></td><td>None</td><td>Sticky header with logo, 8 nav links, cart badge with item count, mobile hamburger menu. Scroll-triggered glass effect. Touch-optimized (44px+ targets).</td></tr>
+  <tr><td><code>Footer</code></td><td>None</td><td>4-column grid with brand info, navigation links, social icons. COTE TECHNOLOGIES credit with responsive line breaks.</td></tr>
+  <tr><td><code>LayoutClient</code></td><td>children</td><td>Client-side wrapper providing CartProvider context, renders Navbar, CartDrawer, Footer, BackToTop, and noise overlay.</td></tr>
+  <tr><td><code>Breadcrumbs</code></td><td>None</td><td>Auto-generated from current route path. Maps route segments to readable labels.</td></tr>
+  <tr><td><code>BackToTop</code></td><td>None</td><td>Gold floating button that appears after 600px scroll. Smooth scroll to top.</td></tr>
+</table>
+
+<h3>Content Components</h3>
+<table>
+  <tr><th>Component</th><th>Props</th><th>Description</th></tr>
+  <tr><td><code>SectionHeading</code></td><td>label?, title, description?, align?</td><td>Reusable section header with optional badge label, animated on scroll.</td></tr>
+  <tr><td><code>MediaCard</code></td><td>image, title, subtitle?, badge?, onClick?, icon?</td><td>Square image card with hover overlay, play icon, and badge support.</td></tr>
+  <tr><td><code>ProductCard</code></td><td>product: Product</td><td>Product card with image, price (currency-aware), featured/digital badges, Add to Cart button.</td></tr>
+  <tr><td><code>EventCard</code></td><td>event: Event, index: number</td><td>Horizontal event card with image, status badge, metadata, "Get Tickets" link.</td></tr>
+</table>
+
+<h3>Media Components</h3>
+<table>
+  <tr><th>Component</th><th>Props</th><th>Description</th></tr>
+  <tr><td><code>MusicPlayer</code></td><td>tracks: Track[]</td><td>YouTube-integrated player with scrollable playlist, genre badges, type badges, equalizer animation on active track.</td></tr>
+  <tr><td><code>YouTubePlayer</code></td><td>videoId, title, thumbnail?, autoplay?, className?</td><td>Thumbnail-first YouTube embed. Click to play with autoplay. Responsive 16:9 aspect ratio.</td></tr>
+  <tr><td><code>InstagramEmbed</code></td><td>url, postId, title, thumbnail?, type?</td><td>Instagram reel/post card that opens a modal with iframe embed on click. Fallback external link.</td></tr>
+  <tr><td><code>PhotoGallery</code></td><td>images: GalleryImage[]</td><td>Filterable masonry grid (performance/portrait/BTS). Lightbox modal with close button.</td></tr>
+</table>
+
+<h3>Commerce Components</h3>
+<table>
+  <tr><th>Component</th><th>Props</th><th>Description</th></tr>
+  <tr><td><code>CartDrawer</code></td><td>None (uses useCart)</td><td>Slide-out drawer showing cart items, quantity controls, currency toggle (USD/UGX), total, checkout button.</td></tr>
+  <tr><td><code>PaymentMethodSelector</code></td><td>selected, onSelect</td><td>Grid of 6 payment method cards with animated selection indicator.</td></tr>
+  <tr><td><code>PaymentDetailsForm</code></td><td>method, values, onChange, errors</td><td>Dynamic form that renders different fields based on selected payment method.</td></tr>
+  <tr><td><code>JsonLd</code></td><td>data: Record</td><td>Renders JSON-LD structured data script tag. Includes helper functions for all schema types.</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 6. DATA LAYER -->
+<!-- ============================================ -->
+<h2 id="data">6. Data Layer &amp; Types</h2>
+
+<h3>TypeScript Interfaces</h3>
+<p>All types are defined in <code>types/index.ts</code>:</p>
+
+<table>
+  <tr><th>Interface</th><th>Key Fields</th><th>Used By</th></tr>
+  <tr><td><code>Track</code></td><td>id, title, youtubeId, genre, year, type, featured</td><td>Music player, homepage</td></tr>
+  <tr><td><code>PerformanceVideo</code></td><td>title, instagramUrl, instagramId, venue, type (reel/post)</td><td>Music page, Instagram embeds</td></tr>
+  <tr><td><code>Interview</code></td><td>title, source, url, type (video/article/radio), youtubeId?</td><td>Music page, about page</td></tr>
+  <tr><td><code>Product</code></td><td>name, price, priceUGX, category (merch/digital), sizes, inStock</td><td>Store, cart, checkout</td></tr>
+  <tr><td><code>Event</code></td><td>title, date, venue, status, tickets: TicketTier[]</td><td>Events page, ticket purchase</td></tr>
+  <tr><td><code>TicketTier</code></td><td>name, price, priceUGX, perks, available</td><td>Ticket purchase flow</td></tr>
+  <tr><td><code>TicketOrder</code></td><td>id, eventId, tier, buyerName, buyerEmail, paymentMethod, totalPrice</td><td>Ticket confirmation, PDF generator</td></tr>
+  <tr><td><code>PaymentMethod</code></td><td>Union: visa | bank-transfer | mtn-momo | mtn-momo-code | airtel-pay | airtel-money</td><td>Checkout, ticket purchase</td></tr>
+  <tr><td><code>BlogPost</code></td><td>title, excerpt, content, category, readTime</td><td>Blog page</td></tr>
+  <tr><td><code>CartItem</code></td><td>product, quantity, size?</td><td>Cart context, checkout</td></tr>
+</table>
+
+<h3>Data Files</h3>
+<table>
+  <tr><th>File</th><th>Exports</th><th>Records</th></tr>
+  <tr><td><code>data/artist.ts</code></td><td>artist object</td><td>Bio, 7 achievements, contact info, social links</td></tr>
+  <tr><td><code>data/music.ts</code></td><td>tracks, performanceVideos, interviews, videos, galleryImages</td><td>9 tracks, 8 performances, 3 interviews, 4 videos, 11 gallery images</td></tr>
+  <tr><td><code>data/products.ts</code></td><td>products array</td><td>8 products (6 merch + 2 digital)</td></tr>
+  <tr><td><code>data/events.ts</code></td><td>events array</td><td>6 events (4 upcoming with ticket tiers + 2 past)</td></tr>
+  <tr><td><code>data/blog.ts</code></td><td>blogPosts array</td><td>4 articles</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 7. CORE FEATURES -->
+<!-- ============================================ -->
+<h2 id="features">7. Core Features</h2>
+
+<div class="feature-grid">
+  <div class="feature-card">
+    <h4>YouTube Music Player</h4>
+    <p>9 tracks with real YouTube video IDs. Click-to-play with autoplay. Genre filter tabs. Scrollable playlist with active track highlighting.</p>
+  </div>
+  <div class="feature-card">
+    <h4>Instagram Performance Videos</h4>
+    <p>8 live performance reels embedded via Instagram oEmbed. Click to open modal with autoplay. Fallback to Instagram app.</p>
+  </div>
+  <div class="feature-card">
+    <h4>E-Commerce Store</h4>
+    <p>8 products with dual currency (USD/UGX). Category filtering. Product detail pages with size selector and image gallery.</p>
+  </div>
+  <div class="feature-card">
+    <h4>Event Ticketing</h4>
+    <p>Tiered tickets (Regular/VIP/VVIP). 3-step purchase flow. PDF ticket generation. Email delivery simulation.</p>
+  </div>
+  <div class="feature-card">
+    <h4>6 Payment Methods</h4>
+    <p>VISA/Mastercard, Bank Transfer, MTN Mobile Money, MTN MoMo Code, Airtel Pay, Airtel Money.</p>
+  </div>
+  <div class="feature-card">
+    <h4>Shopping Cart</h4>
+    <p>Slide-out drawer with quantity management, size tracking, currency toggle, and checkout navigation.</p>
+  </div>
+  <div class="feature-card">
+    <h4>Press Kit (EPK)</h4>
+    <p>Copyable bios, downloadable press photos, media coverage links, booking contact information.</p>
+  </div>
+  <div class="feature-card">
+    <h4>Linktree Page</h4>
+    <p>Single-column bio link page optimized for Instagram/TikTok bio. 8 branded link buttons with staggered animations.</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 8. E-COMMERCE -->
+<!-- ============================================ -->
+<h2 id="ecommerce">8. E-Commerce &amp; Payments</h2>
+
+<h3>Cart System</h3>
+<p>The shopping cart is managed via React Context (<code>lib/cart-context.tsx</code>) providing global state across all pages:</p>
+<ul>
+  <li><strong>addItem(product, size?)</strong> — Adds product to cart, auto-opens drawer</li>
+  <li><strong>removeItem(productId, size?)</strong> — Removes specific item</li>
+  <li><strong>updateQuantity(productId, quantity, size?)</strong> — Updates count, removes if 0</li>
+  <li><strong>clearCart()</strong> — Empties entire cart</li>
+  <li><strong>Currency toggle</strong> — Switch between USD and UGX site-wide</li>
+  <li><strong>Computed totals</strong> — totalItems and totalPrice auto-calculated based on currency</li>
+</ul>
+
+<h3>Checkout Flow (3 Steps)</h3>
+<table>
+  <tr><th>Step</th><th>Fields</th><th>Validation</th></tr>
+  <tr><td>1. Order Review</td><td>Item list, quantities, currency toggle</td><td>At least 1 item required</td></tr>
+  <tr><td>2. Shipping</td><td>First/last name, email, phone, address, city, country, ZIP</td><td>Required fields, email format. Skipped for digital-only orders.</td></tr>
+  <tr><td>3. Payment</td><td>Payment method selector + method-specific form</td><td>Method-specific validation (card number, phone, reference)</td></tr>
+</table>
+
+<h3>Payment Methods</h3>
+<table>
+  <tr><th>Method</th><th>Form Fields</th><th>Flow</th></tr>
+  <tr><td>VISA / Mastercard</td><td>Card number, name, expiry (MM/YY), CVC</td><td>Card validation, formatted input</td></tr>
+  <tr><td>Bank Transfer</td><td>Payment reference number</td><td>Shows bank details (Stanbic Bank Uganda), user enters reference</td></tr>
+  <tr><td>MTN Mobile Money</td><td>MTN phone number</td><td>Payment prompt sent to phone, user enters PIN</td></tr>
+  <tr><td>MTN MoMo Code</td><td>MTN phone number</td><td>Generated USSD dial code displayed, user dials to pay</td></tr>
+  <tr><td>Airtel Pay</td><td>Airtel phone number</td><td>Payment prompt sent to Airtel phone</td></tr>
+  <tr><td>Airtel Money</td><td>Airtel phone number</td><td>Airtel Money wallet payment prompt</td></tr>
+</table>
+
+<h3>Products</h3>
+<table>
+  <tr><th>Product</th><th>Category</th><th>USD</th><th>UGX</th><th>Sizes</th></tr>
+  <tr><td>XED 256 Signature Hoodie</td><td>Merch</td><td>$65</td><td>240,000</td><td>S, M, L, XL, XXL</td></tr>
+  <tr><td>FortPortal Ni Dubai Tee</td><td>Merch</td><td>$35</td><td>130,000</td><td>S, M, L, XL, XXL</td></tr>
+  <tr><td>XED 256 Snapback Cap</td><td>Merch</td><td>$25</td><td>92,000</td><td>One Size</td></tr>
+  <tr><td>Afro-Future Bomber Jacket</td><td>Merch</td><td>$120</td><td>445,000</td><td>S, M, L, XL</td></tr>
+  <tr><td>Energy — Digital Single</td><td>Digital</td><td>$1.99</td><td>7,500</td><td>—</td></tr>
+  <tr><td>Ayee ft. Geno Rapper — Digital</td><td>Digital</td><td>$1.99</td><td>7,500</td><td>—</td></tr>
+  <tr><td>XED 256 Concert Poster</td><td>Merch</td><td>$20</td><td>74,000</td><td>—</td></tr>
+  <tr><td>256 Movement Tee — Black</td><td>Merch</td><td>$30</td><td>110,000</td><td>S, M, L, XL, XXL</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 9. TICKETING -->
+<!-- ============================================ -->
+<h2 id="ticketing">9. Event Ticketing System</h2>
+
+<h3>Ticket Purchase Flow</h3>
+<p>Located at <code>/events/tickets/[eventId]</code>, the ticketing system provides a complete purchase experience:</p>
+
+<table>
+  <tr><th>Step</th><th>What Happens</th></tr>
+  <tr><td>1. Select Ticket</td><td>Choose tier (Regular/VIP/VVIP) with pricing, perks list, remaining count. Select quantity (1–10). Toggle USD/UGX.</td></tr>
+  <tr><td>2. Your Details</td><td>Enter name, email, phone. Ticket will be sent to this email.</td></tr>
+  <tr><td>3. Payment</td><td>Choose from all 6 payment methods. Fill method-specific form. Submit payment.</td></tr>
+  <tr><td>4. Confirmation</td><td>Order ID generated. "Download Ticket PDF" button. Email simulation logged.</td></tr>
+</table>
+
+<h3>Ticket Tiers per Event</h3>
+<table>
+  <tr><th>Event</th><th>Regular</th><th>VIP</th><th>VVIP</th></tr>
+  <tr><td>XED Live In Concert 2025</td><td>UGX 50K / $15</td><td>UGX 150K / $40</td><td>UGX 300K / $80</td></tr>
+  <tr><td>Fort Portal Homecoming</td><td>UGX 30K / $8</td><td>UGX 90K / $25</td><td>—</td></tr>
+  <tr><td>Afro Fusion Festival</td><td>UGX 70K / $20</td><td>UGX 180K / $50</td><td>—</td></tr>
+  <tr><td>FortPortal Ni Dubai Showcase</td><td>UGX 110K / $30</td><td>UGX 280K / $75</td><td>—</td></tr>
+</table>
+
+<h3>PDF Ticket Generation</h3>
+<p>The <code>lib/generate-ticket-pdf.ts</code> module generates a professionally designed HTML ticket that opens in a new browser tab for printing or saving as PDF. The ticket includes:</p>
+<ul>
+  <li>XED 256 gold gradient branding and logo</li>
+  <li>Event name, date, time, venue, and city</li>
+  <li>Ticket tier with perks list</li>
+  <li>Buyer name, email, and phone</li>
+  <li>Unique order ID (e.g., <code>XED-TKT-M1A2B3-X4Y5</code>)</li>
+  <li>QR code placeholder for venue scanning</li>
+  <li>Total amount paid with payment method</li>
+  <li>Terms and contact information</li>
+</ul>
+
+<!-- ============================================ -->
+<!-- 10. MEDIA INTEGRATION -->
+<!-- ============================================ -->
+<h2 id="media">10. Media Integration</h2>
+
+<h3>YouTube Music Tracks</h3>
+<p>All 9 tracks are integrated with verified YouTube video IDs via the <code>YouTubePlayer</code> component:</p>
+<table>
+  <tr><th>#</th><th>Track</th><th>YouTube ID</th><th>Type</th><th>Genre</th></tr>
+  <tr><td>1</td><td>Energy</td><td><code>frNgTBchCbU</code></td><td>Lyric Video</td><td>Afrobeats</td></tr>
+  <tr><td>2</td><td>Ayee ft. Geno Rapper</td><td><code>TPr9gmwTPWw</code></td><td>Lyrics Video</td><td>Hip-Hop</td></tr>
+  <tr><td>3</td><td>Ninkugonza</td><td><code>RWuvoBJjiFo</code></td><td>Audio</td><td>RnB</td></tr>
+  <tr><td>4</td><td>Libido</td><td><code>LGF41nV5hlk</code></td><td>Official Audio</td><td>Amapiano</td></tr>
+  <tr><td>5</td><td>Niiwe</td><td><code>PX04dh2miGM</code></td><td>Lyric Video</td><td>Afrobeats</td></tr>
+  <tr><td>6</td><td>Adyeeri</td><td><code>evi12QZFje4</code></td><td>Audio</td><td>Pop</td></tr>
+  <tr><td>7</td><td>Eddie Beibe</td><td><code>S-ROA_CrmQA</code></td><td>Official Video</td><td>Afrobeats</td></tr>
+  <tr><td>8</td><td>Kumba</td><td><code>In1UDbfan4U</code></td><td>Audio</td><td>Amapiano</td></tr>
+  <tr><td>9</td><td>Misuwa</td><td><code>7H8VoFIlonY</code></td><td>Official Audio</td><td>Afrobeats</td></tr>
+</table>
+
+<h3>Instagram Performance Videos</h3>
+<table>
+  <tr><th>#</th><th>Performance</th><th>Instagram ID</th><th>Year</th></tr>
+  <tr><td>1</td><td>XED Live In Concert 2025</td><td><code>DQ6-gBHjM6R</code></td><td>2025</td></tr>
+  <tr><td>2</td><td>Kwegonza Avenue Performance</td><td><code>Cvhn6mxq73P</code></td><td>2023</td></tr>
+  <tr><td>3</td><td>Batooro Kwegonza</td><td><code>C0JAExZK9nd</code></td><td>2023</td></tr>
+  <tr><td>4</td><td>Misuwa Music Premier</td><td><code>C8Ho81tqN0E</code></td><td>2024</td></tr>
+  <tr><td>5</td><td>MOTIV Music Showcase</td><td><code>C8Ho81tqN0E</code></td><td>2024</td></tr>
+  <tr><td>6</td><td>Olive Live Performance</td><td><code>CsyaldtKebr</code></td><td>2023</td></tr>
+  <tr><td>7</td><td>Media Challenge Initiative</td><td><code>CqPxH6kqRtq</code></td><td>2023</td></tr>
+  <tr><td>8</td><td>IUEA Cultural Gala</td><td><code>CqBHkasKVBl</code></td><td>2023</td></tr>
+</table>
+
+<h3>Interviews &amp; Press</h3>
+<table>
+  <tr><th>Source</th><th>Title</th><th>Type</th></tr>
+  <tr><td>Ugandan Boy Talk Show</td><td>XED256 Opens Up About Losing His Mom, Music &amp; Life Beyond Fame</td><td>YouTube Video (<code>hSLJNfI1cMI</code>)</td></tr>
+  <tr><td>Daily Monitor</td><td>XED 256 and the case of regional artistes breaking into Kampala</td><td>Article (external link)</td></tr>
+  <tr><td>MCI Radio</td><td>Xed's Enchanted Melody — A Magical Tale of Music</td><td>Radio (external link)</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 11. SEO -->
+<!-- ============================================ -->
+<h2 id="seo">11. SEO &amp; Structured Data</h2>
+
+<h3>Metadata</h3>
+<p>Global metadata is configured in <code>app/layout.tsx</code> with per-page overrides:</p>
+<ul>
+  <li><strong>Title template:</strong> <code>%s | Xed 256</code></li>
+  <li><strong>metadataBase:</strong> <code>https://xed256.com</code></li>
+  <li><strong>Open Graph:</strong> type, locale, siteName, title, description, image (1200×630)</li>
+  <li><strong>Twitter Card:</strong> summary_large_image with @xed256 creator</li>
+  <li><strong>Keywords:</strong> 13 targeted keywords including local Uganda/Fort Portal terms</li>
+  <li><strong>Robots:</strong> index: true, follow: true</li>
+</ul>
+
+<h3>Sitemap (<code>/sitemap.xml</code>)</h3>
+<p>Auto-generated via <code>app/sitemap.ts</code> covering all static pages, product pages, and blog posts with appropriate <code>changeFrequency</code> and <code>priority</code> values.</p>
+
+<h3>Robots (<code>/robots.txt</code>)</h3>
+<p>Allows all crawlers. Disallows <code>/checkout</code> and <code>/api</code>. Points to sitemap URL.</p>
+
+<h3>JSON-LD Structured Data</h3>
+<p>The <code>JsonLd</code> component renders schema.org structured data on every page:</p>
+<table>
+  <tr><th>Schema</th><th>Where</th><th>Data</th></tr>
+  <tr><td>WebSite</td><td>Root layout (all pages)</td><td>Site name, URL, search action</td></tr>
+  <tr><td>Person (MusicGroup)</td><td>Root layout (all pages)</td><td>Artist name, bio, image, sameAs social links, birthPlace</td></tr>
+  <tr><td>MusicRecording</td><td>Available via helper</td><td>Track name, duration, genre, URL</td></tr>
+  <tr><td>Product</td><td>Available via helper</td><td>Name, price, currency, availability, image</td></tr>
+  <tr><td>Event</td><td>Available via helper</td><td>Name, startDate, location, offers</td></tr>
+  <tr><td>Article</td><td>Available via helper</td><td>Headline, datePublished, author, image</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 12. PERFORMANCE -->
+<!-- ============================================ -->
+<h2 id="performance">12. Performance Optimizations</h2>
+
+<table>
+  <tr><th>Optimization</th><th>Implementation</th><th>Impact</th></tr>
+  <tr><td>Self-hosted fonts</td><td><code>next/font/google</code> for Space Grotesk &amp; Inter</td><td>Eliminates render-blocking Google Fonts request</td></tr>
+  <tr><td>Image optimization</td><td>Next.js Image with AVIF/WebP, 6 device sizes</td><td>Automatic format selection &amp; responsive sizing</td></tr>
+  <tr><td>Cache headers</td><td>1-year immutable cache on <code>/media/*</code></td><td>Zero re-downloads for returning visitors</td></tr>
+  <tr><td>Static generation</td><td>14 of 16 routes pre-rendered at build time</td><td>Instant page loads, minimal server compute</td></tr>
+  <tr><td>YouTube thumbnails</td><td>Remote patterns for <code>img.youtube.com</code></td><td>Optimized YouTube thumbnails via Next.js Image</td></tr>
+  <tr><td>Code splitting</td><td>Automatic per-route bundles by Next.js</td><td>Only load JS needed for current page</td></tr>
+  <tr><td>Shared bundle</td><td>102 KB first load JS (shared)</td><td>Efficient shared chunk across all routes</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 13. MOBILE RESPONSIVENESS -->
+<!-- ============================================ -->
+<h2 id="responsive">13. Mobile Responsiveness</h2>
+
+<h3>Breakpoints</h3>
+<table>
+  <tr><th>Breakpoint</th><th>Width</th><th>Target Devices</th></tr>
+  <tr><td><code>xs</code></td><td>360px</td><td>Small Android phones</td></tr>
+  <tr><td><code>sm</code></td><td>640px</td><td>Large phones, small tablets</td></tr>
+  <tr><td><code>md</code></td><td>768px</td><td>Tablets</td></tr>
+  <tr><td><code>lg</code></td><td>1024px</td><td>Laptops, small desktops</td></tr>
+  <tr><td><code>xl</code></td><td>1280px</td><td>Desktops</td></tr>
+  <tr><td><code>2xl</code></td><td>1536px</td><td>Large monitors</td></tr>
+</table>
+
+<h3>Key Mobile Adaptations</h3>
+<ul>
+  <li><strong>Buttons:</strong> <code>px-5 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base</code> — fit 320px screens</li>
+  <li><strong>Hero headings:</strong> <code>text-3xl xs:text-4xl sm:text-6xl</code> — scale from mobile to desktop</li>
+  <li><strong>CTAs:</strong> Stack vertically on mobile (<code>flex-col xs:flex-row</code>), full-width buttons</li>
+  <li><strong>Product grids:</strong> <code>grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4</code></li>
+  <li><strong>Decorative elements:</strong> Hidden on mobile (<code>hidden sm:block</code>) to save CPU/GPU</li>
+  <li><strong>Sticky sidebars:</strong> Only sticky on desktop (<code>lg:sticky lg:top-28</code>)</li>
+  <li><strong>Touch targets:</strong> Minimum 44×44px on all interactive elements</li>
+  <li><strong>Filter tabs:</strong> Horizontal scroll on mobile (<code>overflow-x-auto</code>)</li>
+  <li><strong>Cart drawer:</strong> Reduced padding and image sizes on mobile</li>
+  <li><strong>Footer credit:</strong> Line breaks on mobile via <code>&lt;br className="sm:hidden"&gt;</code></li>
+</ul>
+
+<!-- ============================================ -->
+<!-- 14. DESIGN SYSTEM -->
+<!-- ============================================ -->
+<h2 id="design">14. Design System</h2>
+
+<h3>Color Palette</h3>
+<table>
+  <tr><th>Token</th><th>Hex</th><th>Usage</th></tr>
+  <tr><td><code>brand-gold</code></td><td>#D4AF37</td><td>Primary accent — buttons, links, highlights, badges</td></tr>
+  <tr><td><code>brand-gold-light</code></td><td>#E8C547</td><td>Gradient start, hover states</td></tr>
+  <tr><td><code>brand-gold-dark</code></td><td>#B8960F</td><td>Gradient end, pressed states</td></tr>
+  <tr><td><code>brand-dark</code></td><td>#0A0A0F</td><td>Primary background</td></tr>
+  <tr><td><code>brand-darker</code></td><td>#050508</td><td>Alternating section background</td></tr>
+  <tr><td><code>brand-card</code></td><td>#111118</td><td>Card backgrounds</td></tr>
+  <tr><td><code>brand-surface</code></td><td>#1A1A24</td><td>Surface elements</td></tr>
+</table>
+
+<h3>Typography</h3>
+<table>
+  <tr><th>Font</th><th>CSS Variable</th><th>Usage</th></tr>
+  <tr><td>Space Grotesk</td><td><code>--font-heading</code></td><td>Headings, buttons, labels, badges</td></tr>
+  <tr><td>Inter</td><td><code>--font-body</code></td><td>Body text, descriptions, form inputs</td></tr>
+</table>
+
+<h3>CSS Utility Classes</h3>
+<table>
+  <tr><th>Class</th><th>Effect</th></tr>
+  <tr><td><code>.glass</code></td><td>70% opacity backdrop blur (20px) with subtle border</td></tr>
+  <tr><td><code>.glass-strong</code></td><td>90% opacity backdrop blur (40px)</td></tr>
+  <tr><td><code>.gradient-text</code></td><td>Gold gradient text fill (135deg)</td></tr>
+  <tr><td><code>.glow-text</code></td><td>Gold text shadow glow</td></tr>
+  <tr><td><code>.glow-box</code></td><td>Gold box shadow glow</td></tr>
+  <tr><td><code>.glow-border</code></td><td>Gradient border using CSS mask technique</td></tr>
+  <tr><td><code>.btn-primary</code></td><td>Gold gradient button, black text, responsive padding</td></tr>
+  <tr><td><code>.btn-outline</code></td><td>Transparent button with border, gold hover</td></tr>
+  <tr><td><code>.section-padding</code></td><td>Responsive section padding (py-12 to py-32)</td></tr>
+  <tr><td><code>.card-hover</code></td><td>Lift effect on hover (4px mobile, 8px desktop)</td></tr>
+  <tr><td><code>.noise-overlay</code></td><td>Subtle film grain texture overlay</td></tr>
+</table>
+
+<h3>Animation Patterns</h3>
+<ul>
+  <li><strong>Page entry:</strong> Fade up with staggered delays (<code>initial/whileInView</code>)</li>
+  <li><strong>Parallax:</strong> <code>useScroll</code> + <code>useTransform</code> on hero sections</li>
+  <li><strong>Hover:</strong> Scale (1.02–1.05) and Y-translate on cards/buttons</li>
+  <li><strong>Layout:</strong> <code>layoutId</code> for active state indicators (nav, filters)</li>
+  <li><strong>Presence:</strong> <code>AnimatePresence</code> for modals, step transitions, filter changes</li>
+</ul>
+
+<!-- ============================================ -->
+<!-- 15. SETUP & DEPLOYMENT -->
+<!-- ============================================ -->
+<h2 id="setup">15. Setup &amp; Deployment</h2>
+
+<h3>Prerequisites</h3>
+<ul>
+  <li>Node.js 18+ installed</li>
+  <li>npm or yarn package manager</li>
+  <li>Git (for version control)</li>
+</ul>
+
+<h3>Quick Start</h3>
+<pre><code># Clone the repository
+git clone git@github.com:Bahindiemma/xed256-official.git
+cd xed256-official
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Open in browser
+http://localhost:3000</code></pre>
+
+<h3>Build for Production</h3>
+<pre><code># Create optimized production build
+npm run build
+
+# Start production server
+npm start</code></pre>
+
+<h3>Deploy to Vercel</h3>
+<pre><code># One-command deployment
+npx vercel</code></pre>
+
+<h3>Environment</h3>
+<p>No environment variables are required for the current static implementation. Future integrations (Stripe, email service, CMS) would use <code>.env.local</code>.</p>
+
+<h3>Available Scripts</h3>
+<table>
+  <tr><th>Command</th><th>Description</th></tr>
+  <tr><td><code>npm run dev</code></td><td>Start development server with hot reload</td></tr>
+  <tr><td><code>npm run build</code></td><td>Create production build (type checking + optimization)</td></tr>
+  <tr><td><code>npm start</code></td><td>Start production server</td></tr>
+  <tr><td><code>npm run lint</code></td><td>Run ESLint checks</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- 16. CONTACTS -->
+<!-- ============================================ -->
+<h2 id="contacts">16. Contact Information</h2>
+
+<h3>Artist</h3>
+<table>
+  <tr><td><strong>Name</strong></td><td>Xed 256 (Edward Muligirwa)</td></tr>
+  <tr><td><strong>Email</strong></td><td>muligirwaxed12@gmail.com</td></tr>
+  <tr><td><strong>Phone</strong></td><td>+256751155990</td></tr>
+  <tr><td><strong>Instagram</strong></td><td>@xed256</td></tr>
+  <tr><td><strong>TikTok</strong></td><td>@xeduganda</td></tr>
+  <tr><td><strong>X (Twitter)</strong></td><td>@xed256</td></tr>
+  <tr><td><strong>YouTube</strong></td><td>@xed256</td></tr>
+</table>
+
+<h3>Website Developer</h3>
+<table>
+  <tr><td><strong>Company</strong></td><td>COTE TECHNOLOGIES</td></tr>
+  <tr><td><strong>Website</strong></td><td>https://www.coteug.com/</td></tr>
+  <tr><td><strong>Contact Person</strong></td><td>Eng. Emmanuel Bahindi</td></tr>
+  <tr><td><strong>Email</strong></td><td>ebahindi@gmail.com</td></tr>
+  <tr><td><strong>Phone</strong></td><td>+256773165989</td></tr>
+</table>
+
+<h3>Repository</h3>
+<table>
+  <tr><td><strong>GitHub</strong></td><td>https://github.com/Bahindiemma/xed256-official</td></tr>
+  <tr><td><strong>Branch</strong></td><td>main</td></tr>
+  <tr><td><strong>License</strong></td><td>Private / All Rights Reserved</td></tr>
+</table>
+
+<div class="separator"></div>
+
+<p style="text-align: center; font-size: 12px; color: #999;">
+  <em>This documentation was generated for the Xed 256 Official Website v1.0</em><br>
+  <em>Built &amp; managed by COTE TECHNOLOGIES &bull; April 2026</em><br>
+  <strong style="color: #D4AF37;">FortPortal Ni Dubai</strong>
+</p>
+
+</body>
+</html>
