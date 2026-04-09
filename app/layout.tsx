@@ -4,6 +4,8 @@ import "./globals.css";
 import LayoutClient from "@/components/LayoutClient";
 import JsonLd, { getWebsiteSchema, getArtistSchema } from "@/components/JsonLd";
 
+// Deployed via Vercel — auto-syncs with github.com/Bahindiemma/xed256-official
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
