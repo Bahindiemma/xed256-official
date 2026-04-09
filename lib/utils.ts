@@ -1,0 +1,18 @@
+export function formatPrice(amount: number, currency: "USD" | "UGX"): string {
+  if (currency === "UGX") {
+    return `UGX ${amount.toLocaleString()}`;
+  }
+  return `$${amount.toFixed(2)}`;
+}
+
+export function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+export function cn(...classes: (string | boolean | undefined | null)[]): string {
+  return classes.filter(Boolean).join(" ");
+}
